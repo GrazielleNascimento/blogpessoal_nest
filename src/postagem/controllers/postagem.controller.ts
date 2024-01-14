@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   ParseIntPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { PostagemService } from '../services/postagem.service';
 import { Postagem } from '../entities/postagem.entity';
@@ -50,4 +52,12 @@ export class PostagemController {
   create(@Body() postagem: Postagem): Promise<Postagem> {
     return this.postagemService.create(postagem);
   }
+
+  @Put()
+  @HttpCode(HttpStatus.OK)
+  UpdateDateColumn(@Body() postagem: Postagem): Promise<Postagem> {
+    return this.postagemService.update(postagem);
+  }
+
+
 }
