@@ -1,3 +1,4 @@
+import { PostagemModule } from './postagem/postagem.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'; //Importamos o pacote TypeORMModule, que foi instalado anteriormente
 import { Postagem } from './postagem/entities/postagem.entity';
@@ -14,7 +15,8 @@ import { Postagem } from './postagem/entities/postagem.entity';
       entities: [Postagem],// add classe Postagem para criar a tabela(entity) no banco de dados
       //A propriedade synchronize definida com true indica que as tabelas do Banco de dados serão criadas/atualizadas automaticamente em cada inicialização da aplicação.
       synchronize: true,
-    })
+    }),
+    PostagemModule
   ],
   controllers: [],
   providers: [],
