@@ -20,8 +20,11 @@ export class PostagemService {
   //Criamos o Método Assíncrono (async), chamado findAll(), que promete retornar uma Promise contendo um array de Objetos da Classe Postagem.
   //Como o Método findAll() lista vários Objetos é necessário criar um array para armazenar todos os Objetos.
   async findAll(): Promise<Postagem[]> {
-    //
-    return await this.postagemRepository.find();
+    return await this.postagemRepository.find({
+      relations: {
+        tema: true,
+      },
+    });
   }
 
   async findById(id: number): Promise<Postagem> {
@@ -35,6 +38,9 @@ export class PostagemService {
 
       where: {
         id,
+      },
+      relations: {
+        tema: true,
       },
     });
     if (!postagem)
@@ -50,6 +56,9 @@ export class PostagemService {
       where: {
         titulo: ILike(`%${titulo}%`), //O ILike (Insensitive Like), ignora se a string foi digitada com letras maiúsculas ou minúsculas
       },
+      relations: {
+        tema: true,
+      }
     });
   }
   // Método create(postagem: Postagem) possui um parâmetro do tipo Postagem, chamado postagem.
