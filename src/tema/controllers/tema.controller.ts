@@ -23,7 +23,10 @@ export class TemaController {
         return this.temaService.findById(id);
     }
 
-    
+    @Get('/descricao/:descricao')
+    findByDescricao(@Param('descricao') descricao: string): Promise<Tema[]> {
+        return this.temaService.findByDescricao(descricao);
+    }
 
 
 
