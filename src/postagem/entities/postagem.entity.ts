@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm'; // Importamos o pacote TypeORM com os respectivos decorators
+import { Tema } from '../../tema/entities/tema.entity';
 
 @Entity({ name: 'tb_postagens' }) //gera a tabela
 export class Postagem {
@@ -21,4 +23,16 @@ export class Postagem {
 
   @UpdateDateColumn() //O decorator @UpdateDateColumn configura o atributo data como Timestamp, ou seja, o Nest se encarregará de obter a data e a hora do Sistema Operacional e inserir no atributo data toda vez que um Objeto da Classe Postagem for criado ou atualizado.
   data: Date;
+  /* O decorator @ManyToOne indica que a Classe Postagem será o lado N:1 da relação
+   e terá um Objeto da Classe Tema, chamado tema,
+    que no modelo Relacional será
+     a Chave Estrangeira na Tabela tb_postagens (temaId).*/
+
+  //RELACIONAMENTO
+  @ManyToOne(() => Tema, (tema) => tema.postagem, {
+    onDelete: 'CASCADE',
+    /*cascade faz com que se excluimos um objeto Tema, todos os objetos postagem dentro daquela tema sera excluido
+      onDelete: O "cascateamento" foi habilitado apenas na operação Delete, ou seja, apenas quando um Objeto da Classe Tema for apagado, todos os Objetos da Classe Postagem associados ao Tema também serão apagados. O Inverso não é verdadeiro.*/
+  })
+  tema: Tema;
 }
