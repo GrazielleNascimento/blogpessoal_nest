@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'; //: Importamos a Classe Repository, do Módulo typeorm, do pacote Typeorm.
 import { Postagem } from '../entities/postagem.entity';
-import { ILike, Repository } from 'typeorm';
+import { DeleteResult, ILike, Repository } from 'typeorm';
 
 //@Injectable indica que a classe é do tipo Service (Classe de Serviço)
 // que pode ser Injetada em outras Classes através da Injeção de Dependências.
@@ -59,4 +59,18 @@ export class PostagemService {
   async create(postagem: Postagem): Promise<Postagem> {
     return await this.postagemRepository.save(postagem);
   }
+
+
+  async update(postagem: Postagem): Promise<Postagem> {
+    
+    let buscaPostagem: Postagem = await this.findById(postagem.id);
+
+    //Verifica se buscaPostagem é nulo ou se o id da postagem(JSON) é nulo. 
+    if (!buscaPostagem || !postagem.id)
+    throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
+
+    return await this.postagemRepository.save(postagem)
+  }
+
+
 }
