@@ -2,7 +2,7 @@ import { PostagemModule } from './postagem/postagem.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'; //Importamos o pacote TypeORMModule, que foi instalado anteriormente
 import { Postagem } from './postagem/entities/postagem.entity';
-import { temaModule } from './tema/tema.module';
+import { TemaModule } from './tema/tema.module';
 import { Tema } from './tema/entities/tema.entity';
 
 @Module({
@@ -19,7 +19,7 @@ import { Tema } from './tema/entities/tema.entity';
       synchronize: true,
     }),
     PostagemModule,
-    temaModule
+    TemaModule
   ],
   controllers: [],
   providers: [],
