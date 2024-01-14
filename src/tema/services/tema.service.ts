@@ -52,8 +52,16 @@ export class TemaService {
    return await this.temaRepository.save(tema);
   }
 
-  
+  async update(tema: Tema): Promise<Tema>{
+    let buscaTema: Tema = await this.findById(tema.id)
 
+    if(!buscaTema || !tema.id)
+    throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
+
+    return await this.temaRepository.save(tema);
+  }
+
+  
 
 
 
