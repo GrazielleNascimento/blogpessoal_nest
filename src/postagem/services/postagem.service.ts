@@ -29,9 +29,9 @@ export class PostagemService {
     // diferente do Método findAll() que lista todos, será necessário
     // criar apenas um Objeto para armazenar o Objeto procurado.
     let postagem = await this.postagemRepository.findOne({
-    //declaramos a clausula where, com o critério id, 
-    //ou seja, localize a Postagem cujo atributo id 
-    //seja igual ao id enviado no parâmetro do Método findById(id: number).
+      //declaramos a clausula where, com o critério id,
+      //ou seja, localize a Postagem cujo atributo id
+      //seja igual ao id enviado no parâmetro do Método findById(id: number).
 
       where: {
         id,
@@ -42,18 +42,21 @@ export class PostagemService {
 
     return postagem;
   }
-  async findByTitulo(titulo: string): Promise<Postagem[]>{
+  async findByTitulo(titulo: string): Promise<Postagem[]> {
     return await this.postagemRepository.find({
-        
-     //Declaramos a clausula where, com o critério ILike(%${titulo}%),
-     // ou seja, localize a Postagem cujo atributo titulo contenha, 
-     //em qualquer parte, a string titulo enviada no parâmetro do Método findByTitulo(titulo: string).   
-        where:{
-            titulo: ILike(`%${titulo}%`) //O ILike (Insensitive Like), ignora se a string foi digitada com letras maiúsculas ou minúsculas
-        }
-    })
+      //Declaramos a clausula where, com o critério ILike(%${titulo}%),
+      // ou seja, localize a Postagem cujo atributo titulo contenha,
+      //em qualquer parte, a string titulo enviada no parâmetro do Método findByTitulo(titulo: string).
+      where: {
+        titulo: ILike(`%${titulo}%`), //O ILike (Insensitive Like), ignora se a string foi digitada com letras maiúsculas ou minúsculas
+      },
+    });
+  }
+  // Método create(postagem: Postagem) possui um parâmetro do tipo Postagem, chamado postagem.
+  //Esta variável receberá um Objeto da Classe Postagem,
+  //que foi enviado no Corpo da Requisição (Request Body),
+  // conforme as regras definidas na Entidade Postagem (Tamanho, Pode ser Nulo, Pode ser vazio, entre outras). O Objeto postagem será enviado pelo Método da Classe PostagemController
+  async create(postagem: Postagem): Promise<Postagem> {
+    return await this.postagemRepository.save(postagem);
+  }
 }
-}
-
-
-
