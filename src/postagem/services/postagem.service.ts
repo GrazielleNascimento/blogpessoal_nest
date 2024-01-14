@@ -24,4 +24,22 @@ export class PostagemService {
     return await this.postagemRepository.find();
   }
 
+  async findById(id: number): Promise<Postagem> {
+    //Como o Método findById(id: number) lista apenas um Objeto específico,
+    // diferente do Método findAll() que lista todos, será necessário
+    // criar apenas um Objeto para armazenar o Objeto procurado.
+    let postagem = await this.postagemRepository.findOne({
+    //declaramos a clausula where, com o critério id, 
+    //ou seja, localize a Postagem cujo atributo id 
+    //seja igual ao id enviado no parâmetro do Método findById(id: number).
+
+      where: {
+        id,
+      },
+    });
+    if (!postagem)
+      throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
+
+    return postagem;
+  }
 }
