@@ -12,4 +12,4 @@ import { TemaController } from "./controllers/tema.controller";
     exports: [TypeOrmModule]
 })
 
-export class temaModule {}
+export class TemaModule {}
