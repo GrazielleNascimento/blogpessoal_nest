@@ -60,17 +60,22 @@ export class PostagemService {
     return await this.postagemRepository.save(postagem);
   }
 
-
   async update(postagem: Postagem): Promise<Postagem> {
-    
     let buscaPostagem: Postagem = await this.findById(postagem.id);
 
-    //Verifica se buscaPostagem é nulo ou se o id da postagem(JSON) é nulo. 
+    //Verifica se buscaPostagem é nulo ou se o id da postagem(JSON) é nulo.
     if (!buscaPostagem || !postagem.id)
-    throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
+      throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
 
-    return await this.postagemRepository.save(postagem)
+    return await this.postagemRepository.save(postagem);
   }
 
+  async delete(id: number): Promise<DeleteResult> {
+    let buscaPostagem = await this.findById(id);
 
+    if (!buscaPostagem)
+      throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
+
+    return await this.postagemRepository.delete(id);
+  }
 }
