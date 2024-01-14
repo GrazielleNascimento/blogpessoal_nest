@@ -3,7 +3,7 @@ import { TemaService } from '../services/tema.service';
 
 
 
-import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post } from "@nestjs/common";
 
 
 @Controller('/temas')
@@ -28,6 +28,11 @@ export class TemaController {
         return this.temaService.findByDescricao(descricao);
     }
 
+    @Post()
+    @HttpCode(HttpStatus.CREATED)
+    create(@Body() tema: Tema): Promise<Tema>{
+        return this.temaService.create(tema);
+    }
 
 
 
