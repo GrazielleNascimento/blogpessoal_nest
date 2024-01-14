@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'; //: Importamos a Classe Repository, do Módulo typeorm, do pacote Typeorm.
 import { Postagem } from '../entities/postagem.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 //@Injectable indica que a classe é do tipo Service (Classe de Serviço)
 // que pode ser Injetada em outras Classes através da Injeção de Dependências.
@@ -42,4 +42,18 @@ export class PostagemService {
 
     return postagem;
   }
+  async findByTitulo(titulo: string): Promise<Postagem[]>{
+    return await this.postagemRepository.find({
+        
+     //Declaramos a clausula where, com o critério ILike(%${titulo}%),
+     // ou seja, localize a Postagem cujo atributo titulo contenha, 
+     //em qualquer parte, a string titulo enviada no parâmetro do Método findByTitulo(titulo: string).   
+        where:{
+            titulo: ILike(`%${titulo}%`) //O ILike (Insensitive Like), ignora se a string foi digitada com letras maiúsculas ou minúsculas
+        }
+    })
 }
+}
+
+
+
