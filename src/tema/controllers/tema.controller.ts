@@ -3,7 +3,7 @@ import { TemaService } from '../services/tema.service';
 
 
 
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 
 
 @Controller('/temas')
@@ -33,7 +33,12 @@ export class TemaController {
     create(@Body() tema: Tema): Promise<Tema>{
         return this.temaService.create(tema);
     }
-
+    
+    @Put()
+    @HttpCode(HttpStatus.OK)
+   updateDateColumn(@Body() tema: Tema): Promise<Tema>{
+        return this.temaService.update(tema);
+    }
 
 
 
