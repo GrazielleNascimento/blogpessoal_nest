@@ -2,6 +2,8 @@ import { PostagemModule } from './postagem/postagem.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'; //Importamos o pacote TypeORMModule, que foi instalado anteriormente
 import { Postagem } from './postagem/entities/postagem.entity';
+import { temaModule } from './tema/tema.module';
+import { Tema } from './tema/entities/tema.entity';
 
 @Module({
   imports: [
@@ -12,11 +14,12 @@ import { Postagem } from './postagem/entities/postagem.entity';
       username: 'root',
       password: 'root',
       database: 'db_blogpessoal_nest', //A propriedade database define o nome do Banco de dados que foi criado no MySQL
-      entities: [Postagem],// add classe Postagem para criar a tabela(entity) no banco de dados
+      entities: [Postagem, Tema],// add classe Postagem para criar a tabela(entity) no banco de dados
       //A propriedade synchronize definida com true indica que as tabelas do Banco de dados serão criadas/atualizadas automaticamente em cada inicialização da aplicação.
       synchronize: true,
     }),
-    PostagemModule
+    PostagemModule,
+    temaModule
   ],
   controllers: [],
   providers: [],
