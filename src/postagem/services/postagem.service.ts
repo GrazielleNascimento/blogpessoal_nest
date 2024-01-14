@@ -1,3 +1,4 @@
+import { TemaService } from './../../tema/services/tema.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'; //: Importamos a Classe Repository, do Módulo typeorm, do pacote Typeorm.
 import { Postagem } from '../entities/postagem.entity';
@@ -15,6 +16,7 @@ export class PostagemService {
     //injeção de dependência é um padrão de projeto no qual uma classe solicita dependências de fontes externas ao invés de criá-las.
     @InjectRepository(Postagem) // usado para informar ao TypeORM que a dependência que será injetada no construtor é do tipo Postagem.
     private postagemRepository: Repository<Postagem>,
+    private temaService: TemaService
   ) {}
 
   //Criamos o Método Assíncrono (async), chamado findAll(), que promete retornar uma Promise contendo um array de Objetos da Classe Postagem.
@@ -58,7 +60,7 @@ export class PostagemService {
       },
       relations: {
         tema: true,
-      }
+      },
     });
   }
   // Método create(postagem: Postagem) possui um parâmetro do tipo Postagem, chamado postagem.
@@ -66,6 +68,15 @@ export class PostagemService {
   //que foi enviado no Corpo da Requisição (Request Body),
   // conforme as regras definidas na Entidade Postagem (Tamanho, Pode ser Nulo, Pode ser vazio, entre outras). O Objeto postagem será enviado pelo Método da Classe PostagemController
   async create(postagem: Postagem): Promise<Postagem> {
+    if (postagem.tema) { //O objetivo é checar se o Tema que será associado ao Objeto Postagem existe
+
+      let tema = await  this.temaService.findById(postagem.tema.id);
+
+      if (!tema)
+        throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
+
+      return await this.postagemRepository.save(postagem);
+    }
     return await this.postagemRepository.save(postagem);
   }
 
@@ -76,8 +87,21 @@ export class PostagemService {
     if (!buscaPostagem || !postagem.id)
       throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
 
+      if (postagem.tema){
+            
+        let tema = await this.temaService.findById(postagem.tema.id)
+        
+        //Verifica se o Objeto tema é nulo, ou seja, não foi encontrado.
+        if (!tema) 
+            throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
+      
+            return await this.postagemRepository.save(postagem);
+      }
+
     return await this.postagemRepository.save(postagem);
-  }
+     
+    }
+
 
   async delete(id: number): Promise<DeleteResult> {
     let buscaPostagem = await this.findById(id);
