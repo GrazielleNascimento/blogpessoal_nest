@@ -36,7 +36,7 @@ export class TemaController {
     
     @Put()
     @HttpCode(HttpStatus.OK)
-   updateDateColumn(@Body() tema: Tema): Promise<Tema>{
+    UpdateDateColumn(@Body() tema: Tema): Promise<Tema>{
         return this.temaService.update(tema);
     }
 
