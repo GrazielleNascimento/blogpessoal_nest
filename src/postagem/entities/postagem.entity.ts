@@ -7,6 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm'; // Importamos o pacote TypeORM com os respectivos decorators
 import { Tema } from '../../tema/entities/tema.entity';
+import { Usuario } from '../../usuario/entities/usuario.entity';
 
 @Entity({ name: 'tb_postagens' }) //gera a tabela
 export class Postagem {
@@ -35,4 +36,9 @@ export class Postagem {
       onDelete: O "cascateamento" foi habilitado apenas na operação Delete, ou seja, apenas quando um Objeto da Classe Tema for apagado, todos os Objetos da Classe Postagem associados ao Tema também serão apagados. O Inverso não é verdadeiro.*/
   })
   tema: Tema;
+
+  @ManyToOne(() => Usuario, (usuario) => usuario.postagem, {
+    onDelete: "CASCADE"
+  })
+  usuario: Usuario
 }
